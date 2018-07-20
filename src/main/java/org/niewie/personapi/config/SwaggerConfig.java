@@ -36,8 +36,11 @@ public class SwaggerConfig {
 
     }
 
+    /**
+     * Lets define Header in Swagger, sadly not Authorization: Bearer
+     */
     private ApiKey apiKey() {
-        return new ApiKey("mykey", "Authorization", "header");
+        return new ApiKey("token", "Authorization", "header");
     }
 
     private SecurityContext securityContext() {
@@ -52,7 +55,7 @@ public class SwaggerConfig {
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
         return Arrays.asList(
-                new SecurityReference("mykey", authorizationScopes));
+                new SecurityReference("token", authorizationScopes));
     }
 
 }

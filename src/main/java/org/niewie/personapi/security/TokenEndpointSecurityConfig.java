@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
+ * Config for authentication with basic auth (only /token endpoint)
+ * Prepares InMemory fake user store with 2 users
+ *
  * @author aniewielska
  * @since 19/07/2018
  */
@@ -31,8 +34,12 @@ public class TokenEndpointSecurityConfig extends WebSecurityConfigurerAdapter {
                 and().httpBasic().
                 and().csrf().disable().
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
     }
 
+    /**
+     * Demo hardcoded user store with 2 users
+     */
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()

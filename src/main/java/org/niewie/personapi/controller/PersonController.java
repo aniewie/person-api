@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
+ * Controller for exposing REST methods
+ * on Person resource
+ *
  * @author aniewielska
  * @since 18/07/2018
  */
@@ -46,6 +49,10 @@ public class PersonController {
         return service.updatePerson(personId, data);
     }
 
+    /**
+     * Allows partial updates, but there is no way to revert null in this way
+     * (Nulls are ignored)
+     */
     @RequestMapping(value = "/{personId}", method = RequestMethod.PATCH)
     PersonData patchPerson(@PathVariable("personId") String personId, @RequestBody @Valid PersonData data) {
         return service.patchPerson(personId, data);

@@ -5,6 +5,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
+ * Super class for exceptions connected to JWT authentication
+ *
  * @author aniewielska
  * @since 20/07/2018
  */

@@ -4,6 +4,7 @@ import org.niewie.personapi.dto.PersonData;
 import org.niewie.personapi.dto.PersonList;
 
 /**
+ * Handles CRUD for Person Resource
  * @author aniewielska
  * @since 18/07/2018
  */

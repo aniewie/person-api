@@ -22,10 +22,18 @@ public class Person {
     private Integer age;
     private String favouriteColour;
 
+    /**
+     * Updates "modifiable" properties (arbitrary list), permits setting nulls
+     */
+
     public void update(Person person) {
         this.update(person, true);
     }
 
+    /**
+     * @param person
+     * @param updateNull - if true may update property values to null
+     */
     public void update(Person person, boolean updateNull) {
         if (person.firstName != null || updateNull)
             this.firstName = person.firstName;

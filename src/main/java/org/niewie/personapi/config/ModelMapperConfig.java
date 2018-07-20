@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @author aniewielska
  * @since 18/07/2018
+ *
+ * DTO <-> Entity conversion configuration
+ * Strict - no flattening (which is OK for us)
  */
 @Configuration
 public class ModelMapperConfig {

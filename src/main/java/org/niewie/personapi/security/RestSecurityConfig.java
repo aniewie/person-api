@@ -15,6 +15,8 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
+ * Config for authentication with JWT Token (everything except for /token)
+ *
  * @author aniewielska
  * @since 19/07/2018
  */

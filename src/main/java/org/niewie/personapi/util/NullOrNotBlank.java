@@ -14,14 +14,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- *
- * @author aniewielska
- * @since 19/07/2018
- *
  * Missing Validator - Null or NotBlank
  * Added to support patching of NotBlank properties:
  * if Null - property ignored
  * if NotNull - cannot be Blank
+ *
+ * @author aniewielska
+ * @since 19/07/2018
  */
 
 @ConstraintComposition(CompositionType.OR)

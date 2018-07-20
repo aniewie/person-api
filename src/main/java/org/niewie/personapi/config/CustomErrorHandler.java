@@ -28,7 +28,7 @@ import java.util.Map;
 /**
  * @author aniewielska
  * @since 19/07/2018
- *
+ * <p>
  * 1) created mainly to bypass default Spring Boot error controller {@link BasicErrorController} in order
  * to avoid generating html error page for browser requests
  * (always tries to return JSON instead)
@@ -60,11 +60,15 @@ public class CustomErrorHandler extends ResponseEntityExceptionHandler {
         return this.handleExceptionInternal(request, status);
     }
 
+    /**
+     * JWT Exception from Filter Chain (different ordering of resolvers -> had to add message directly)
+     * Could be done better by passing all resolvers chain
+     */
     @ExceptionHandler(JwtException.class)
     @ResponseBody
     public ResponseEntity<?> unauthorizedHandler(HttpServletRequest request, JwtException ex) {
         ResponseEntity<?> response = commonErrorHandler(request, ex);
-        Map<String, Object> responseBody = (Map<String, Object>)response.getBody();
+        Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
         responseBody.put("message", ex.getMessage());
         return response;
     }

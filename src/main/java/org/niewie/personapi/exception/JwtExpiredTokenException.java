@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
+ * Exception represents JWT token expiration
+ *
  * @author aniewielska
  * @since 20/07/2018
  */

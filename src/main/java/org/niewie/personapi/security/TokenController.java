@@ -1,4 +1,4 @@
-package org.niewie.personapi.controller;
+package org.niewie.personapi.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
+ * Controller for obtaining JWT token
+ *
  * @author aniewielska
  * @since 19/07/2018
  */

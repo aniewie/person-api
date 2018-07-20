@@ -14,6 +14,9 @@ import java.util.List;
  */
 @Data
 @Builder
+/**
+ * Representation of Person List - only to get "person" label
+ */
 public class PersonList {
     @JsonProperty("person")
     private List<PersonData> personList;

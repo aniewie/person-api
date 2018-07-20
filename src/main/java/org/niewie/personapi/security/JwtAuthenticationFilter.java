@@ -2,7 +2,6 @@ package org.niewie.personapi.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.niewie.personapi.exception.JwtException;
 import org.niewie.personapi.exception.JwtExpiredTokenException;
 import org.niewie.personapi.exception.JwtInvalidTokenException;
 import org.niewie.personapi.exception.JwtNoTokenException;
@@ -21,6 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Filter handling authentication by JWT token passed in the header
+ * Because of Swagger limitations accepts token both with and withour Bearer prefix
+ *
  * @author aniewielska
  * @since 19/07/2018
  */

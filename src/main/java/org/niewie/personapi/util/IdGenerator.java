@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
+ * Demo personID generator (ban cause collisions)
+ *
  * @author aniewielska
  * @since 19/07/2018
  */

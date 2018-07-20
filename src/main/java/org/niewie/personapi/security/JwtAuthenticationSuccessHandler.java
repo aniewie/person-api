@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Required to bypass defaults in JWT Filter
+ *
  * @author aniewielska
  * @since 20/07/2018
  */
