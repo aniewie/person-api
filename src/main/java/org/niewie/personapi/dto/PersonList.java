@@ -9,14 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Representation of Person List - only to get "person" label
+ *
  * @author aniewielska
  * @since 18/07/2018
  */
 @Data
 @Builder
-/**
- * Representation of Person List - only to get "person" label
- */
 public class PersonList {
     @JsonProperty("person")
     private List<PersonData> personList;

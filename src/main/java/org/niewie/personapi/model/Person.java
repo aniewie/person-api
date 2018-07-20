@@ -37,7 +37,7 @@ public class Person {
     }
 
     /**
-     * @param person
+     * @param person - entity with updated values
      * @param updateNull - if true may update property values to null
      */
     public void update(Person person, boolean updateNull) {

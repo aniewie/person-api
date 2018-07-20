@@ -28,24 +28,24 @@ public class PersonController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    PersonList getPersonList() {
+    public PersonList getPersonList() {
         return service.getPersonList();
     }
 
 
     @RequestMapping(value = "/{personId}", method = RequestMethod.GET)
-    PersonData getPerson(@PathVariable("personId") String personId) {
+    public PersonData getPerson(@PathVariable("personId") String personId) {
         return service.getPerson(personId);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    PersonData createPerson(@RequestBody @Validated(PersonData.Full.class) PersonData data) {
+    public PersonData createPerson(@RequestBody @Validated(PersonData.Full.class) PersonData data) {
         return service.createPerson(data);
     }
 
     @RequestMapping(value = "/{personId}", method = RequestMethod.PUT)
-    PersonData updatePerson(@PathVariable("personId") String personId, @RequestBody @Validated(PersonData.Full.class) PersonData data) {
+    public PersonData updatePerson(@PathVariable("personId") String personId, @RequestBody @Validated(PersonData.Full.class) PersonData data) {
         return service.updatePerson(personId, data);
     }
 
@@ -54,13 +54,13 @@ public class PersonController {
      * (Nulls are ignored)
      */
     @RequestMapping(value = "/{personId}", method = RequestMethod.PATCH)
-    PersonData patchPerson(@PathVariable("personId") String personId, @RequestBody @Valid PersonData data) {
+    public PersonData patchPerson(@PathVariable("personId") String personId, @RequestBody @Valid PersonData data) {
         return service.patchPerson(personId, data);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{personId}", method = RequestMethod.DELETE)
-    void deletePerson(@PathVariable("personId") String personId) {
+    public void deletePerson(@PathVariable("personId") String personId) {
         service.deletePerson(personId);
     }
 

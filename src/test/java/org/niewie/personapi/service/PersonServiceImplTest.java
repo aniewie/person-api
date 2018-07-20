@@ -2,40 +2,35 @@ package org.niewie.personapi.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.modelmapper.ModelMapper;
+import org.mockito.Mockito;
 import org.niewie.personapi.dto.PersonData;
 import org.niewie.personapi.model.Person;
 import org.niewie.personapi.model.PersonRepository;
 import org.niewie.personapi.util.IdGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 import static org.mockito.BDDMockito.given;
 
 /**
  * @author aniewielska
  * @since 20/07/2018
  */
-@RunWith(SpringRunner.class)
 public class PersonServiceImplTest {
 
-    @MockBean
+
     private PersonRepository repository;
 
-    @MockBean
     private IdGenerator idGenerator;
 
     private PersonService service;
 
     @Before
     public void setUp() {
+        repository = Mockito.mock(PersonRepository.class);
+        idGenerator = Mockito.mock(IdGenerator.class);
         service = new PersonServiceImpl(repository, idGenerator);
     }
 

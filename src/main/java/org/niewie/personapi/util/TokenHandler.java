@@ -3,15 +3,8 @@ package org.niewie.personapi.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.niewie.personapi.config.JwtProperties;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.security.Key;
-import java.security.KeyStore;
-import java.security.PublicKey;
-import java.security.cert.Certificate;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Date;
@@ -26,7 +19,11 @@ import java.util.Date;
  */
 @Component
 public class TokenHandler {
+
+    private final static int DURATION_SEC = 300;
+
     private final KeyProvider keyProvider;
+
 
     public TokenHandler(KeyProvider keyProvider) {
         this.keyProvider = keyProvider;
@@ -34,16 +31,15 @@ public class TokenHandler {
 
     public String generateToken(String userName, Collection<String> roles) {
         Instant issueTime = Instant.now();
-        Instant expiryTime = issueTime.plusSeconds(300);
+        Instant expiryTime = issueTime.plusSeconds(DURATION_SEC);
 
-        String compactJws = Jwts.builder()
+        return Jwts.builder()
                 .setSubject(userName)
                 .claim("roles", roles)
                 .setIssuedAt(Date.from(issueTime))
                 .setExpiration(Date.from(expiryTime))
                 .signWith(SignatureAlgorithm.RS256, keyProvider.getPrivateKey())
                 .compact();
-        return compactJws;
     }
 
     public Claims verifyToken(String token) {
