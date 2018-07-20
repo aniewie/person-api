@@ -39,6 +39,7 @@ public class KeyStoreKeyProvider implements KeyProvider {
     public Key getPrivateKey() {
         return privateKey;
     }
+
     @Override
     public Key getPublicKey() {
         return publicKey;

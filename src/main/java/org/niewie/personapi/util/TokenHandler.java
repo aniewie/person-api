@@ -22,6 +22,7 @@ public class TokenHandler {
 
     private final static int DURATION_SEC = 300;
 
+    public final static String ROLES_CLAIM = "roles";
     private final KeyProvider keyProvider;
 
 
@@ -35,7 +36,7 @@ public class TokenHandler {
 
         return Jwts.builder()
                 .setSubject(userName)
-                .claim("roles", roles)
+                .claim(ROLES_CLAIM, roles)
                 .setIssuedAt(Date.from(issueTime))
                 .setExpiration(Date.from(expiryTime))
                 .signWith(SignatureAlgorithm.RS256, keyProvider.getPrivateKey())

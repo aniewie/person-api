@@ -8,15 +8,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.niewie.personapi.util.NullOrNotBlank;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.groups.Default;
 
 /**
  * @author aniewielska
  * @since 18/07/2018
- *
+ * <p>
  * Representation of Person REST Resource
- *
+ * <p>
  * Validation Groups -> for partial updates (PATCH) to switch off checking Null
  */
 @Data
