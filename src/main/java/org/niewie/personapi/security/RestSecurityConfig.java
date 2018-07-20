@@ -3,15 +3,14 @@ package org.niewie.personapi.security;
 import org.niewie.personapi.util.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.access.ExceptionTranslationFilter;
-import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AnyRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 /**
  * @author aniewielska
@@ -20,24 +19,41 @@ import org.springframework.security.web.util.matcher.AnyRequestMatcher;
 @Configuration
 public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
+            new AntPathRequestMatcher("/favicon.ico"),
+            new AntPathRequestMatcher("/error"),
+            new AntPathRequestMatcher("/"),
+            new AntPathRequestMatcher("/csrf"),
+            //swagger docs
+            new AntPathRequestMatcher("/v2/api-docs"),
+            new AntPathRequestMatcher("/configuration/ui"),
+            new AntPathRequestMatcher("/swagger-resources/**"),
+            new AntPathRequestMatcher("/configuration/**"),
+            new AntPathRequestMatcher("/swagger-ui.html**"),
+            new AntPathRequestMatcher("/webjars/**"));
+
+    private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
+
     @Autowired
     private TokenHandler tokenHandler;
 
+
     private JwtAuthenticationFilter authenticationFilter() {
-        return new JwtAuthenticationFilter(AnyRequestMatcher.INSTANCE, tokenHandler);
+        return new JwtAuthenticationFilter(PROTECTED_URLS, tokenHandler);
+
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.
+                csrf().disable().
+                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().
                 authorizeRequests().
-                antMatchers(HttpMethod.GET, "/", "/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**").permitAll().
-                anyRequest().authenticated().
-                and().csrf().disable().
-                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                requestMatchers(PUBLIC_URLS).permitAll().
+                anyRequest().authenticated();
         http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint());
-
-
     }
+
+
 }

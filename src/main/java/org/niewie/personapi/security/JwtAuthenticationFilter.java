@@ -1,10 +1,7 @@
 package org.niewie.personapi.security;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwt;
 import org.niewie.personapi.util.TokenHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -47,6 +44,8 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
             throw new AuthenticationException("Ups") {
 
             };
+
         }
     }
+
 }
