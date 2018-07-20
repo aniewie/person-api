@@ -26,24 +26,12 @@ import java.util.Date;
  */
 @Component
 public class TokenHandler {
-    private final JwtProperties jwtProperties;
-    private Key privateKey;
-    private PublicKey publicKey;
+    private final KeyProvider keyProvider;
 
-    public TokenHandler(JwtProperties jwtProperties) {
-        this.jwtProperties = jwtProperties;
+    public TokenHandler(KeyProvider keyProvider) {
+        this.keyProvider = keyProvider;
     }
 
-    @PostConstruct
-    public void initKeys() throws Exception {
-        ClassPathResource resource = new ClassPathResource(jwtProperties.getKeystorePath());
-        KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-        keystore.load(resource.getInputStream(), jwtProperties.getKeystorePassword().toCharArray());
-
-        privateKey = keystore.getKey(jwtProperties.getKeyAlias(), jwtProperties.getKeyPassword().toCharArray());
-        Certificate cert = keystore.getCertificate(jwtProperties.getKeyAlias());
-        publicKey = cert.getPublicKey();
-    }
     public String generateToken(String userName, Collection<String> roles) {
         Instant issueTime = Instant.now();
         Instant expiryTime = issueTime.plusSeconds(300);
@@ -53,13 +41,13 @@ public class TokenHandler {
                 .claim("roles", roles)
                 .setIssuedAt(Date.from(issueTime))
                 .setExpiration(Date.from(expiryTime))
-                .signWith(SignatureAlgorithm.RS256, privateKey)
+                .signWith(SignatureAlgorithm.RS256, keyProvider.getPrivateKey())
                 .compact();
         return compactJws;
     }
 
     public Claims verifyToken(String token) {
-        return Jwts.parser().setSigningKey(publicKey).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(keyProvider.getPublicKey()).parseClaimsJws(token).getBody();
     }
 
 }

@@ -48,7 +48,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
             authHeader = authHeader.replaceFirst("^Bearer ", "");
             Claims claims = tokenHandler.verifyToken(authHeader);
             List<Object> roles = claims.get("roles", List.class);
-            List<GrantedAuthority> authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role.toString())).collect(Collectors.toList());
+            List<GrantedAuthority> authorities = roles == null? null : roles.stream().map(role -> new SimpleGrantedAuthority(role.toString())).collect(Collectors.toList());
             return new UsernamePasswordAuthenticationToken(claims.getSubject(),
                     "", authorities);
         } catch (ExpiredJwtException e) {
