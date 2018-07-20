@@ -1,6 +1,7 @@
 package org.niewie.personapi.config;
 
 
+import org.niewie.personapi.exception.JwtException;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -57,6 +58,15 @@ public class CustomErrorHandler extends ResponseEntityExceptionHandler {
         ResponseStatus requestedResponseStatus = AnnotatedElementUtils.findMergedAnnotation(ex.getClass(), ResponseStatus.class);
         HttpStatus status = requestedResponseStatus != null ? requestedResponseStatus.code() : HttpStatus.INTERNAL_SERVER_ERROR;
         return this.handleExceptionInternal(request, status);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    @ResponseBody
+    public ResponseEntity<?> unauthorizedHandler(HttpServletRequest request, JwtException ex) {
+        ResponseEntity<?> response = commonErrorHandler(request, ex);
+        Map<String, Object> responseBody = (Map<String, Object>)response.getBody();
+        responseBody.put("message", ex.getMessage());
+        return response;
     }
 
     /**

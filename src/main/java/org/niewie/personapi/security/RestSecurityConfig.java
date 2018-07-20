@@ -2,6 +2,7 @@ package org.niewie.personapi.security;
 
 import org.niewie.personapi.util.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -11,6 +12,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 /**
  * @author aniewielska
@@ -34,13 +36,20 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
 
+
+
+    @Autowired
+    @Qualifier("handlerExceptionResolver")
+    private HandlerExceptionResolver resolver;
+
     @Autowired
     private TokenHandler tokenHandler;
 
-
     private JwtAuthenticationFilter authenticationFilter() {
-        return new JwtAuthenticationFilter(PROTECTED_URLS, tokenHandler);
-
+        JwtAuthenticationFilter filter = new JwtAuthenticationFilter(PROTECTED_URLS, tokenHandler);
+        filter.setAuthenticationSuccessHandler(new JwtAuthenticationSuccessHandler());
+        filter.setAuthenticationFailureHandler(new JwtAuthenticationFailureHandler(resolver));
+        return filter;
     }
 
     @Override
