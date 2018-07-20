@@ -9,7 +9,8 @@ import org.niewie.personapi.util.TokenHandler;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -18,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Filter handling authentication by JWT token passed in the header
@@ -44,8 +47,10 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
         try {
             authHeader = authHeader.replaceFirst("^Bearer ", "");
             Claims claims = tokenHandler.verifyToken(authHeader);
+            List<Object> roles = claims.get("roles", List.class);
+            List<GrantedAuthority> authorities = roles.stream().map(role -> new SimpleGrantedAuthority(role.toString())).collect(Collectors.toList());
             return new UsernamePasswordAuthenticationToken(claims.getSubject(),
-                    "", AuthorityUtils.commaSeparatedStringToAuthorityList("USER"));
+                    "", authorities);
         } catch (ExpiredJwtException e) {
             throw new JwtExpiredTokenException();
         } catch (Exception e) {

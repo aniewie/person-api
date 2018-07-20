@@ -8,6 +8,7 @@ import org.niewie.personapi.exception.PersonNotFoundException;
 import org.niewie.personapi.model.Person;
 import org.niewie.personapi.model.PersonRepository;
 import org.niewie.personapi.util.IdGenerator;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

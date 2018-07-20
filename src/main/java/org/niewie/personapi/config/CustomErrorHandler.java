@@ -8,6 +8,7 @@ import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -58,6 +59,15 @@ public class CustomErrorHandler extends ResponseEntityExceptionHandler {
         ResponseStatus requestedResponseStatus = AnnotatedElementUtils.findMergedAnnotation(ex.getClass(), ResponseStatus.class);
         HttpStatus status = requestedResponseStatus != null ? requestedResponseStatus.code() : HttpStatus.INTERNAL_SERVER_ERROR;
         return this.handleExceptionInternal(request, status);
+    }
+
+    /**
+     * Access denied handler
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseBody
+    public ResponseEntity<?> accessDeniedHandler(HttpServletRequest request, AccessDeniedException ex) {
+        return this.handleExceptionInternal(request, HttpStatus.FORBIDDEN);
     }
 
     /**
