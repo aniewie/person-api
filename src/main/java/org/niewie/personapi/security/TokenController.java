@@ -27,7 +27,7 @@ public class TokenController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    String getToken(Principal principal, Authentication authentication) {
+    public String getToken(Principal principal, Authentication authentication) {
 
         return this.tokenHandler.generateToken(principal.getName(), authentication.getAuthorities().
                 stream().map(GrantedAuthority::getAuthority).

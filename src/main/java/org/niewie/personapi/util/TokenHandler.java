@@ -20,7 +20,7 @@ import java.util.Date;
 @Component
 public class TokenHandler {
 
-    private final static int DURATION_SEC = 300;
+    private final static int DURATION_SEC = 600;
 
     public final static String ROLES_CLAIM = "roles";
     private final KeyProvider keyProvider;

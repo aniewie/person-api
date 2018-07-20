@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * Exception that will be thrown, if any error occured during JWT token parse
+ * Exception that will be thrown, if any error occurred during JWT token parse
  * (other than Token expiration)
  *
  * @author aniewielska

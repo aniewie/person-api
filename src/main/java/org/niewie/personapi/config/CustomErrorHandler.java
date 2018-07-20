@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Error handling ->  tribute to TESK + Auth, thanks to call to HandlerExceptionResolver
+ *
  * @author aniewielska
  * @since 19/07/2018
  * <p>

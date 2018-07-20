@@ -66,7 +66,7 @@ public class TokenHandlerTest {
         Instant from = claims.getIssuedAt().toInstant();
         Instant to = claims.getExpiration().toInstant();
         int seconds = Long.valueOf(Duration.between(from, to).getSeconds()).intValue();
-        assertThat(seconds, is(300));
+        assertThat(seconds, is(600));
     }
 
     @Test

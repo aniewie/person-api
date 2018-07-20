@@ -16,6 +16,7 @@ import java.security.cert.Certificate;
  */
 @Component
 public class KeyStoreKeyProvider implements KeyProvider {
+
     private final JwtProperties jwtProperties;
     private Key privateKey;
     private PublicKey publicKey;

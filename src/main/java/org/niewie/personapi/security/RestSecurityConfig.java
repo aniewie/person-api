@@ -23,6 +23,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 @Configuration
 public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    //If that looks familiar, tribute to GDM - just the list is mine
     private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(
             new AntPathRequestMatcher("/favicon.ico"),
             new AntPathRequestMatcher("/error"),
@@ -38,8 +39,6 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
 
-
-
     @Autowired
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver resolver;
@@ -48,6 +47,8 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
     private TokenHandler tokenHandler;
 
     private JwtAuthenticationFilter authenticationFilter() {
+        //The list of protected URLs has to be passed to Filter - permitAll for public
+        //does not prevent public files from being included in filterChain
         JwtAuthenticationFilter filter = new JwtAuthenticationFilter(PROTECTED_URLS, tokenHandler);
         filter.setAuthenticationSuccessHandler(new JwtAuthenticationSuccessHandler());
         filter.setAuthenticationFailureHandler(new JwtAuthenticationFailureHandler(resolver));
@@ -65,6 +66,5 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling().authenticationEntryPoint(new RestAuthenticationEntryPoint());
     }
-
 
 }

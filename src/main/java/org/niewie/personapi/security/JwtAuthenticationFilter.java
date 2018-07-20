@@ -22,9 +22,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.niewie.personapi.util.TokenHandler.ROLES_CLAIM;
+
 /**
  * Filter handling authentication by JWT token passed in the header
- * Because of Swagger limitations accepts token both with and withour Bearer prefix
+ * Because of Swagger limitations accepts token both with and without Bearer prefix
  *
  * @author aniewielska
  * @since 19/07/2018
@@ -47,7 +49,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
         try {
             authHeader = authHeader.replaceFirst("^Bearer ", "");
             Claims claims = tokenHandler.verifyToken(authHeader);
-            List<Object> roles = claims.get("roles", List.class);
+            List<Object> roles = claims.get(ROLES_CLAIM, List.class);
             List<GrantedAuthority> authorities = roles == null ? null : roles.stream().map(role -> new SimpleGrantedAuthority(role.toString())).collect(Collectors.toList());
             return new UsernamePasswordAuthenticationToken(claims.getSubject(),
                     "", authorities);
