@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 
 import static org.niewie.personapi.util.TokenHandler.ROLES_CLAIM;
 
+
 /**
  * Filter handling authentication by JWT token passed in the header
  * Because of Swagger limitations accepts token both with and without Bearer prefix
@@ -33,6 +34,10 @@ import static org.niewie.personapi.util.TokenHandler.ROLES_CLAIM;
  */
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
+    public static final String AUTH_HEADER_KEY = "Authorization";
+    public static final String BEARER_PREFIX = "Bearer ";
+    public static final String BEARER_PREFIX_REGEX = "^Bearer ";
+    public static final String BASIC_HEADER_PREFIX = "Basic";
     private final TokenHandler tokenHandler;
 
     protected JwtAuthenticationFilter(RequestMatcher requiresAuthenticationRequestMatcher, TokenHandler tokenHandler) {
@@ -42,12 +47,12 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException {
-        String authHeader = httpServletRequest.getHeader("Authorization");
-        if (authHeader == null || authHeader.startsWith("Basic")) {
+        String authHeader = httpServletRequest.getHeader(AUTH_HEADER_KEY);
+        if (authHeader == null || authHeader.startsWith(BASIC_HEADER_PREFIX)) {
             throw new JwtNoTokenException();
         }
         try {
-            authHeader = authHeader.replaceFirst("^Bearer ", "");
+            authHeader = authHeader.replaceFirst(BEARER_PREFIX_REGEX, "");
             Claims claims = tokenHandler.verifyToken(authHeader);
             List<Object> roles = claims.get(ROLES_CLAIM, List.class);
             List<GrantedAuthority> authorities = roles == null ? null : roles.stream().map(role -> new SimpleGrantedAuthority(role.toString())).collect(Collectors.toList());
