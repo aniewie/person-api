@@ -2,7 +2,10 @@ package org.niewie.personapi.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.niewie.personapi.util.NullOrNotBlank;
 
 import javax.validation.constraints.*;
@@ -17,6 +20,9 @@ import javax.validation.groups.Default;
  * Validation Groups -> for partial updates (PATCH) to switch off checking Null
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonData {
     @ApiModelProperty(readOnly = true)
     @JsonProperty("id")

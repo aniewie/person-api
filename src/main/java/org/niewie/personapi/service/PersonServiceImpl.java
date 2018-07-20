@@ -2,6 +2,7 @@ package org.niewie.personapi.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.niewie.personapi.dto.PersonData;
 import org.niewie.personapi.dto.PersonList;
 import org.niewie.personapi.exception.PersonNotFoundException;
@@ -27,9 +28,10 @@ public class PersonServiceImpl implements PersonService {
     private final ModelMapper mapper;
     private final IdGenerator idGenerator;
 
-    public PersonServiceImpl(PersonRepository repository, ModelMapper mapper, IdGenerator idGenerator) {
+    public PersonServiceImpl(PersonRepository repository, IdGenerator idGenerator) {
         this.repository = repository;
-        this.mapper = mapper;
+        this.mapper = new ModelMapper();
+        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         this.idGenerator = idGenerator;
     }
 
