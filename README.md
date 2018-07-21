@@ -8,7 +8,7 @@ Simple RESTful API, which provides a service for storing, updating, retrieving a
 This is a Spring Boot/Java 8/Maven application. Clone the project and run `./mvnw spring-boot:run` from the main folder to quickly run the application in an exploded form [(as descibed here)](https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-running-your-application.html#using-boot-running-with-the-maven-plugin).
 You can also build a jar with `./mvnw package` and run it on Java:
 
-`java -jar target\person-api-0.0.1-SNAPSHOT.jar`
+`java -jar target/person-api-0.0.1-SNAPSHOT.jar`
 
 The application runs on an embedded Tomcat Web Server, which by default listens on 8080 port. 
 
