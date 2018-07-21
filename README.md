@@ -39,4 +39,4 @@ You can authenticate in Swagger UI by clicking any of the padlock icons and past
 
 ## Test
 
-You can run integration tests with Maven command: `./mvnw verify`.
+You can run integration tests with Maven command: `./mvnw verify`
