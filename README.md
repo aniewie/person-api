@@ -21,6 +21,8 @@ The are 2 (hardcoded) user accounts:
 * `user:password` - role USER
 * `admin:password` - roles USER, ADMIN.
 
+You can use a browser to get a token, using credentials of a chosen user. The output in the browser will be the generated token.
+
 To authenticate for any `/person` methods pass a valid token in `Authorization: Bearer ` header (a token without `Bearer ` prefix will also be accepted).
 A token expires in 10 minutes.
 
