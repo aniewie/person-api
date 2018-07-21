@@ -1,4 +1,5 @@
-# person-api
+[![Build Status](https://travis-ci.com/aniewie/person-api.svg?branch=master)](https://travis-ci.com/aniewie/person-api)
+# person-api 
 
 Simple RESTful API, which provides a service for storing, updating, retrieving and deleting Person entities
 
