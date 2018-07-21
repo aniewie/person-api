@@ -1,6 +1,6 @@
 # person-api
 
-Simple RESTful API which provides a service for storing, updating, retrieving and deleting Person entities
+Simple RESTful API, which provides a service for storing, updating, retrieving and deleting Person entities
 
 ## Run
 
