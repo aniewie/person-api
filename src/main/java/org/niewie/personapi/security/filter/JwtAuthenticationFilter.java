@@ -1,11 +1,11 @@
-package org.niewie.personapi.security;
+package org.niewie.personapi.security.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.niewie.personapi.exception.JwtExpiredTokenException;
 import org.niewie.personapi.exception.JwtInvalidTokenException;
 import org.niewie.personapi.exception.JwtNoTokenException;
-import org.niewie.personapi.util.TokenHandler;
+import org.niewie.personapi.security.jwt.TokenHandler;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.niewie.personapi.util.TokenHandler.ROLES_CLAIM;
+import static org.niewie.personapi.security.jwt.TokenHandler.ROLES_CLAIM;
 
 
 /**
@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     public static final String BASIC_HEADER_PREFIX = "Basic";
     private final TokenHandler tokenHandler;
 
-    protected JwtAuthenticationFilter(RequestMatcher requiresAuthenticationRequestMatcher, TokenHandler tokenHandler) {
+    public JwtAuthenticationFilter(RequestMatcher requiresAuthenticationRequestMatcher, TokenHandler tokenHandler) {
         super(requiresAuthenticationRequestMatcher);
         this.tokenHandler = tokenHandler;
     }
@@ -59,8 +59,10 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
             return new UsernamePasswordAuthenticationToken(claims.getSubject(),
                     "", authorities);
         } catch (ExpiredJwtException e) {
+            //logger.debug("Expired token {}", e.getMessage());
             throw new JwtExpiredTokenException();
         } catch (Exception e) {
+            logger.info("Invalid token");
             throw new JwtInvalidTokenException();
         }
     }

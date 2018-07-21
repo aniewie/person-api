@@ -1,4 +1,4 @@
-package org.niewie.personapi.util;
+package org.niewie.personapi.security.jwt;
 
 import org.niewie.personapi.config.JwtProperties;
 import org.springframework.core.io.ClassPathResource;

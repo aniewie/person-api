@@ -1,4 +1,4 @@
-package org.niewie.personapi.security;
+package org.niewie.personapi.security.config;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;

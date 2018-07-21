@@ -3,13 +3,12 @@ package org.niewie.personapi;
 import io.jsonwebtoken.Claims;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.niewie.personapi.util.TokenHandler;
+import org.niewie.personapi.security.jwt.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -22,6 +21,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
+ * Integration tests of authorization
+ * Use the same keystore, that in "production", which is not a good practice
+ * But it is a demo, so we will leave it as it is
+ *
  * @author aniewielska
  * @since 20/07/2018
  */
@@ -41,8 +44,9 @@ public class PersonAuthTest {
     private MockMvc mvc;
 
     private static final String HEADER_KEY = "Authorization";
+
     @Test
-    public void getToken_unauthorized()  {
+    public void getToken_unauthorized() {
         HttpStatus status = restTemplate.getForEntity("/token", String.class).getStatusCode();
         assertThat(status, is(HttpStatus.UNAUTHORIZED));
     }
@@ -62,6 +66,7 @@ public class PersonAuthTest {
         Claims claims = tokenHandler.verifyToken(token);
         assertThat(claims.getSubject(), is("admin"));
     }
+
     @Test
     public void getToken_wrongPassword() {
         HttpStatus status = restTemplate.withBasicAuth("admin", "wrong_password").

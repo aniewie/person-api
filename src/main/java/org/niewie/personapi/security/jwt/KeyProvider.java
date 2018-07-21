@@ -1,4 +1,4 @@
-package org.niewie.personapi.util;
+package org.niewie.personapi.security.jwt;
 
 import java.security.Key;
 

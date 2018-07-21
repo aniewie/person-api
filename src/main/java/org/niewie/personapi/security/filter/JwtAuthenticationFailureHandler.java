@@ -1,4 +1,4 @@
-package org.niewie.personapi.security;
+package org.niewie.personapi.security.filter;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;

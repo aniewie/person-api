@@ -1,4 +1,4 @@
-package org.niewie.personapi.util;
+package org.niewie.personapi.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

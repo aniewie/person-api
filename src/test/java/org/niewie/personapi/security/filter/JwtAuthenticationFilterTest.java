@@ -1,4 +1,4 @@
-package org.niewie.personapi.security;
+package org.niewie.personapi.security.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -9,7 +9,7 @@ import org.mockito.Mockito;
 import org.niewie.personapi.exception.JwtExpiredTokenException;
 import org.niewie.personapi.exception.JwtInvalidTokenException;
 import org.niewie.personapi.exception.JwtNoTokenException;
-import org.niewie.personapi.util.TokenHandler;
+import org.niewie.personapi.security.jwt.TokenHandler;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.core.Authentication;

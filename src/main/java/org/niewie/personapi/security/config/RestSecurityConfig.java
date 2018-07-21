@@ -1,6 +1,9 @@
-package org.niewie.personapi.security;
+package org.niewie.personapi.security.config;
 
-import org.niewie.personapi.util.TokenHandler;
+import org.niewie.personapi.security.filter.JwtAuthenticationFailureHandler;
+import org.niewie.personapi.security.filter.JwtAuthenticationFilter;
+import org.niewie.personapi.security.filter.JwtAuthenticationSuccessHandler;
+import org.niewie.personapi.security.jwt.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
