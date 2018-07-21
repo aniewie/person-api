@@ -2,7 +2,6 @@ package org.niewie.personapi.controller.person;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.niewie.personapi.controller.person.PersonController;
 import org.niewie.personapi.dto.PersonData;
 import org.niewie.personapi.exception.PersonNotFoundException;
 import org.niewie.personapi.service.PersonService;
@@ -29,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(PersonController.class)
-public class PersonControllerTest {
+public class PersonControllerTestIT {
 
     @Autowired
     private MockMvc mvc;

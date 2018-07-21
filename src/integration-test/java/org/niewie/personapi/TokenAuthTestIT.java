@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -32,18 +33,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @TestPropertySource(locations = {"classpath:application.properties"})
-public class PersonAuthTest {
+public class TokenAuthTestIT {
 
     @Autowired
     private TestRestTemplate restTemplate;
 
     @Autowired
     private TokenHandler tokenHandler;
-
-    @Autowired
-    private MockMvc mvc;
-
-    private static final String HEADER_KEY = "Authorization";
 
     @Test
     public void getToken_unauthorized() {
@@ -81,18 +77,5 @@ public class PersonAuthTest {
         assertThat(status, is(HttpStatus.UNAUTHORIZED));
     }
 
-    @Test
-    public void listPerson_noAuth() throws Exception {
-        mvc.perform(get("/person")).andExpect(status().isUnauthorized());
-    }
-
-    @Test
-    public void listPerson_success() throws Exception {
-        String token = tokenHandler.generateToken("user", Arrays.asList("USER"));
-
-        mvc.perform(get("/person").
-                header(HEADER_KEY, token)).
-                andExpect(status().isOk());
-    }
 
 }
