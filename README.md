@@ -36,3 +36,7 @@ Enpoints for Person resources retrieval and manipulation:
 
 You can list and test all available methods using Swagger UI: `http://localhost:8080/swagger-ui.html` or simply go to `http://localhost:8080`.
 You can authenticate in Swagger UI by clicking any of the padlock icons and pasting you valid token in the input field.
+
+## Test
+
+You can run integration tests with Maven command: `./mvnw verify`.
