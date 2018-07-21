@@ -2,6 +2,7 @@ package org.niewie.personapi.security.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.niewie.personapi.exception.JwtExpiredTokenException;
 import org.niewie.personapi.exception.JwtInvalidTokenException;
 import org.niewie.personapi.exception.JwtNoTokenException;
@@ -32,6 +33,7 @@ import static org.niewie.personapi.security.jwt.TokenHandler.ROLES_CLAIM;
  * @author aniewielska
  * @since 19/07/2018
  */
+@Slf4j
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     public static final String AUTH_HEADER_KEY = "Authorization";
@@ -49,6 +51,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
     public Authentication attemptAuthentication(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws AuthenticationException {
         String authHeader = httpServletRequest.getHeader(AUTH_HEADER_KEY);
         if (authHeader == null || authHeader.startsWith(BASIC_HEADER_PREFIX)) {
+            log.info("Authentication request failed: No token ({})/ basic token in header", authHeader == null);
             throw new JwtNoTokenException();
         }
         try {
@@ -59,10 +62,10 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
             return new UsernamePasswordAuthenticationToken(claims.getSubject(),
                     "", authorities);
         } catch (ExpiredJwtException e) {
-            //logger.debug("Expired token {}", e.getMessage());
+            log.info("Authentication request failed: Expired token: {}", e.getMessage());
             throw new JwtExpiredTokenException();
         } catch (Exception e) {
-            logger.info("Invalid token");
+            log.info("Authentication request failed: Invalid token: {}", e.getMessage());
             throw new JwtInvalidTokenException();
         }
     }

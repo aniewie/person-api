@@ -1,5 +1,7 @@
-package org.niewie.personapi.security.jwt;
+package org.niewie.personapi.controller.token;
 
+import lombok.extern.slf4j.Slf4j;
+import org.niewie.personapi.security.jwt.TokenHandler;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
  * @author aniewielska
  * @since 19/07/2018
  */
+@Slf4j
 @RestController
 @RequestMapping("/token")
 public class TokenController {
@@ -27,9 +30,11 @@ public class TokenController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String getToken(Principal principal, Authentication authentication) {
-
-        return this.tokenHandler.generateToken(principal.getName(), authentication.getAuthorities().
+        log.debug("Token request for: {}", authentication);
+        String token = this.tokenHandler.generateToken(principal.getName(), authentication.getAuthorities().
                 stream().map(GrantedAuthority::getAuthority).
                 collect(Collectors.toList()));
+        log.debug("Token generated");
+        return token;
     }
 }

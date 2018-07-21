@@ -46,7 +46,9 @@ public class PersonServiceImpl implements PersonService {
         Person personEntityIn = mapper.map(person, Person.class);
         personEntityIn.setPersonId(idGenerator.getNext());
         Person personEntityOut = repository.save(personEntityIn);
-        return mapper.map(personEntityOut, PersonData.class);
+        PersonData result = mapper.map(personEntityOut, PersonData.class);
+        log.debug("Created person: {}", result.getPersonId());
+        return result;
     }
 
     @Override
@@ -54,7 +56,9 @@ public class PersonServiceImpl implements PersonService {
         Person personEntityToUpdate = findPersonByPersonId(personId);
         personEntityToUpdate.update(mapper.map(person, Person.class));
         Person personEntityUpdated = repository.save(personEntityToUpdate);
-        return mapper.map(personEntityUpdated, PersonData.class);
+        PersonData result = mapper.map(personEntityUpdated, PersonData.class);
+        log.debug("Updated person: {}", result.getPersonId());
+        return result;
     }
 
     @Override
@@ -62,13 +66,16 @@ public class PersonServiceImpl implements PersonService {
         Person personEntityToUpdate = findPersonByPersonId(personId);
         personEntityToUpdate.update(mapper.map(person, Person.class), false);
         Person personEntityUpdated = repository.save(personEntityToUpdate);
-        return mapper.map(personEntityUpdated, PersonData.class);
+        PersonData result = mapper.map(personEntityUpdated, PersonData.class);
+        log.debug("Patched person: {}", result.getPersonId());
+        return result;
     }
 
     @Override
     public PersonData deletePerson(String personId) {
         Person personEntityToDelete = findPersonByPersonId(personId);
         repository.delete(personEntityToDelete);
+        log.debug("Deleted person: {}", personId);
         return mapper.map(personEntityToDelete, PersonData.class);
     }
 
@@ -78,11 +85,17 @@ public class PersonServiceImpl implements PersonService {
         List<PersonData> personList = personEntityList.stream().
                 map(personEntity -> mapper.map(personEntity, PersonData.class)).
                 collect(Collectors.toList());
-        return PersonList.builder().personList(personList).build();
+        PersonList list = PersonList.builder().personList(personList).build();
+        log.debug("List: {}", list.getPersonList().size());
+        return list;
     }
 
     private Person findPersonByPersonId(String personId) {
-        return repository.findByPersonId(personId).orElseThrow(() -> new PersonNotFoundException(personId));
+        return repository.findByPersonId(personId).orElseThrow(() ->
+        {
+            log.debug("No person found with id: {}", personId);
+            return new PersonNotFoundException(personId);
+        });
     }
 
 }
